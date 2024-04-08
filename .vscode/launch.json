@@ -1,0 +1,53 @@
+{
+    "version": "0.2.0",
+     "configurations": [
+        {
+            "name": "ARM-NONE-EABI-GDB: attach to qemu",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}.axf",
+            "args": [],
+            "stopAtEntry": true,
+            "stopAtConnect": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "miDebuggerPath": "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/arm-none-eabi-gdb.exe",
+            "targetArchitecture": "arm",
+            "miDebuggerServerAddress": "localhost:1234",
+            "preLaunchTask": "Run QEMU"
+        },
+        {
+            "name": "ARM-NONE-EABI-GDB: attach to XDS GDB agent(MSP432P401R)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}.axf",
+            "args": [],
+            "stopAtEntry": true,
+            "stopAtConnect": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "miDebuggerPath": "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/arm-none-eabi-gdb.exe",
+            "targetArchitecture": "arm",
+            "miDebuggerServerAddress": "localhost:55000",
+            "preLaunchTask": "Run XDS GDB agent(MSP432P401R)"
+        }
+    ]
+}

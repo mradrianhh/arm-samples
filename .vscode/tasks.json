@@ -1,0 +1,82 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+      {
+        "label": "Make build",
+        "type": "shell",
+        "command": "make --directory=${fileDirname}",
+        "problemMatcher": {
+          "base": "$gcc",
+          "fileLocation": ["relative", "${fileDirname}"]
+        },
+        "group": {
+            "kind": "build",
+            "isDefault": true
+        }
+      },
+      {
+        "label": "Run QEMU",
+        "type": "shell",
+        "command": "echo 'QEMU started'; qemu-system-arm -machine olimex-stm32-h405 -cpu cortex-m4 -kernel ${fileDirname}/${fileBasenameNoExtension}.axf -monitor none -nographic -semihosting -s -S",
+        "dependsOn": ["Make build"],
+        "isBackground": true,
+        "problemMatcher": [
+          {
+            "pattern": [
+              {
+                "regexp": ".",
+                "file": 1,
+                "location": 2,
+                "message": 3
+              }
+            ],
+            "background": {
+              "activeOnStart": true,
+              "beginsPattern": ".",
+              "endsPattern": "QEMU started",
+            }
+          }
+        ]
+      },
+      {
+        "label": "Flash build(MSP432P401R)",
+        "type": "shell",
+        "command": "echo 'Loading ${fileBasename} to device'; ${workspaceFolder}/uniflash_MSP432P401R/dslite.bat --mode load --config=${workspaceFolder}/config/MSP432P401R.ccxml ${fileDirname}/${fileBasenameNoExtension}.axf",
+        "dependsOn": ["Make build"],
+        "problemMatcher": {
+          "base": "$gcc",
+          "fileLocation": ["relative", "${fileDirname}"]
+        },
+        "group": {
+            "kind": "build",
+            "isDefault": true
+        }
+      },
+      {
+        "label": "Run XDS GDB agent(MSP432P401R)",
+        "type": "shell",
+        "command": "echo 'XDS GDB agent started'; C:/ti/ccs1260/ccs/ccs_base/common/uscif/gdb_agent_console.exe ${workspaceFolder}/config/MSP432P401R.dat",
+        "dependsOn": ["Flash build(MSP432P401R)"],
+        "isBackground": true,
+        "problemMatcher": [
+          {
+            "pattern": [
+              {
+                "regexp": ".",
+                "file": 1,
+                "location": 2,
+                "message": 3
+              }
+            ],
+            "background": {
+              "activeOnStart": true,
+              "beginsPattern": ".",
+              "endsPattern": "XDS GDB agent started",
+            }
+          }
+        ]
+      }
+  ]
+}
